@@ -25,8 +25,20 @@ namespace ImageGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file)
         {
-            //await _service.AddImage(file.InputStream);
-            return RedirectToAction("Index");
+            if (file == null)
+            {
+                return RedirectToAction("Index", new { value = "uploadFailure" });
+            }
+            try
+            {
+                await _service.AddImage(file.InputStream);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", new { value = "uploadFailure" });
+            }
+
+            return RedirectToAction("Index", new { value = "uploadSuccess" });
         }
     }
 }

@@ -33,8 +33,8 @@ namespace ImageGallery.Services
         }
         public async Task AddImage(Stream stream)
         {
-            var fileName = String.Concat(imagePrefix, new Guid().ToString());
-            var imageBlob = (CloudBlockBlob)imageContainer.GetBlobReference(fileName);
+            var fileName = String.Concat(imagePrefix, Guid.NewGuid().ToString());
+            var imageBlob = imageContainer.GetBlockBlobReference(fileName);
             await imageBlob.UploadFromStreamAsync(stream);
         }
 
