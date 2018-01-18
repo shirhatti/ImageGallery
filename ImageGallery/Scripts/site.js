@@ -2,9 +2,12 @@
     $("#file").on('change', function () {
         $("#form").submit();
     });
-    $("img").unveil(200, function () {
-        $(this).on('load', function () {
-            this.style.opacity = 1;
-        });
+    $('.lazy').Lazy({
+        scrollDirection: 'vertical',
+        effect: 'fadeIn',
+        visibleOnly: true,
+        onError: function (element) {
+            console.log('error loading ' + element.data('src'));
+        }
     });
 });

@@ -1,6 +1,7 @@
 ﻿using ImageGallery.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,7 +32,8 @@ namespace ImageGallery.Controllers
             }
             try
             {
-                await _service.AddImage(file.InputStream);
+                var fileExtension = Path.GetExtension(file.FileName);
+                await _service.AddImage(file.InputStream, fileExtension);
             }
             catch (Exception e)
             {

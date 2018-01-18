@@ -31,9 +31,9 @@ namespace ImageGallery.Services
                 imageContainer.SetPermissions(new BlobContainerPermissions() { PublicAccess = BlobContainerPublicAccessType.Blob });
             }
         }
-        public async Task AddImage(Stream stream)
+        public async Task AddImage(Stream stream, string fileExtension)
         {
-            var fileName = String.Concat(imagePrefix, Guid.NewGuid().ToString());
+            var fileName = String.Concat(imagePrefix, Guid.NewGuid(), ".", fileExtension);
             var imageBlob = imageContainer.GetBlockBlobReference(fileName);
             await imageBlob.UploadFromStreamAsync(stream);
         }

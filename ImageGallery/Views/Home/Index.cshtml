@@ -22,15 +22,17 @@
         <div class="row">
             @foreach (var image in ViewBag.ImageCollection)
             {
-                <div class="card">
-                    <img data-src="@image.ImagePath" />
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
+            <div class="card">
+                <img class="lazy" data-src="@image.ImagePath" />
+                @*<div class="lazy" data-loader="ajax" data-src="@image.ImageMetaDataPath" />*@
+            </div>
             }
         </div>
     </div>
 </div>
 
 @section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/jquery.lazy.min.js" integrity="sha256-sSF4G6GdnMRF5ZKZOLYGcPvU0BTvmPMFaQ6025ZB+Nk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/plugins/jquery.lazy.ajax.min.js" integrity="sha256-uQvfHo7VKZFNpuEmueDtC1/4i21aJiaG38ubIskMSF0=" crossorigin="anonymous"></script>
     <script src="~/Scripts/site.js"></script>
 }

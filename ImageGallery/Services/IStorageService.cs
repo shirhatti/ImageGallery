@@ -7,6 +7,6 @@ namespace ImageGallery.Services
     public interface IStorageService
     {
         IEnumerable<Image> GetImages();
-        Task AddImage(Stream stream);
+        Task AddImage(Stream stream, string fileExtension);
     }
 }
