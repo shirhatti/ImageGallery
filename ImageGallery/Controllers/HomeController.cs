@@ -11,15 +11,20 @@ namespace ImageGallery.Controllers
 {
     public class HomeController : Controller
     {
-        private IStorageService _service;
-        public HomeController(IStorageService service)
+        private readonly IStorageService _storageService;
+        private readonly ICognitiveService _cognitiveService;
+
+        public HomeController(IStorageService storageService, ICognitiveService cognitiveService)
         {
-            _service = service;
+            _storageService = storageService;
+            _cognitiveService = cognitiveService;
         }
+
         public ActionResult Index()
         {
-            var imageCollection = _service.GetImages();
+            var imageCollection = _storageService.GetImages();
             ViewBag.ImageCollection = imageCollection;
+
             return View();
         }
 
@@ -30,12 +35,15 @@ namespace ImageGallery.Controllers
             {
                 return RedirectToAction("Index", new { value = "uploadFailure" });
             }
+
             try
             {
                 var fileExtension = Path.GetExtension(file.FileName);
-                await _service.AddImage(file.InputStream, fileExtension);
+                await _storageService.AddImage(file.InputStream, fileExtension);
+
+                await _cognitiveService.UploadAndDetectFaces(file.InputStream);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return RedirectToAction("Index", new { value = "uploadFailure" });
             }

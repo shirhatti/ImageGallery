@@ -37,6 +37,7 @@ namespace ImageGallery
         public static void RegisterTypes(IUnityContainer container)
         {
             container.RegisterSingleton<IStorageService, StorageService>();
+            container.RegisterSingleton<ICognitiveService, CognitiveService>();
         }
     }
 }
