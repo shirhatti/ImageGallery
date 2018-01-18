@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Album example</h1>
+        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "form" }))
+        {
+            <p>
+                <label class="btn btn-primary">
+                    Add image <input class="btn btn-primary" type="file" id="file" style="display: none;">
+                </label>
+            </p>
+        }
+    </div>
+</section>
+
+<div class="album text-muted">
+    <div class="container">
+        <div class="row">
+            @foreach (var image in ViewBag.ImageCollection)
+            {
+                <div class="card">
+                    <img data-src="@image.ImagePath" />
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/site.js"></script>
+}
