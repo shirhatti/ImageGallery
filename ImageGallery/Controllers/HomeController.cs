@@ -22,10 +22,8 @@ namespace ImageGallery.Controllers
 
         public ActionResult Index()
         {
-            var imageCollection = _storageService.GetImages();
-            ViewBag.ImageCollection = imageCollection;
-
-            return View();
+            var images = _storageService.GetImages();
+            return View(images);
         }
 
         [HttpPost]
@@ -36,18 +34,23 @@ namespace ImageGallery.Controllers
                 return RedirectToAction("Index", new { value = "uploadFailure" });
             }
 
+            Uri imageUri;
+
             try
             {
                 var fileExtension = Path.GetExtension(file.FileName);
-                await _storageService.AddImage(file.InputStream, fileExtension);
 
-                await _cognitiveService.UploadAndDetectFaces(file.InputStream);
+                imageUri = await _storageService.AddImageAsync(file.InputStream, fileExtension);
+
+                var faces = await _cognitiveService.UploadAndDetectFaces(imageUri);
+
+                await _storageService.AddMetadataAsync(imageUri, faces);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return RedirectToAction("Index", new { value = "uploadFailure" });
             }
-
+            
             return RedirectToAction("Index", new { value = "uploadSuccess" });
         }
     }

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<ImageGallery.Models.Image>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -20,7 +22,7 @@
 <div class="album text-muted">
     <div class="container">
         <div class="row">
-            @foreach (var image in ViewBag.ImageCollection)
+            @foreach (var image in Model)
             {
             <div class="card">
                 <img class="lazy" data-src="@image.ImagePath" />

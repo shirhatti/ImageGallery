@@ -10,6 +10,6 @@ namespace ImageGallery.Services
 {
     public interface ICognitiveService
     {
-        Task<Face[]> UploadAndDetectFaces(Stream stream);
+        Task<Face[]> UploadAndDetectFaces(Uri imageUri);
     }
 }
