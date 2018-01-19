@@ -12,17 +12,17 @@ namespace ImageGallery.Services
 {
     public class CognitiveService : ICognitiveService
     {
-        private readonly IFaceServiceClient client;
+        private readonly IFaceServiceClient _client;
 
         public CognitiveService()
         {
             var url = WebConfigurationManager.AppSettings["CognitiveServiciesUrl"];
             var key = WebConfigurationManager.AppSettings["CognitiveServicesFaceApiKey"];
 
-            client = new FaceServiceClient(key, url);
+            _client = new FaceServiceClient(key, url);
         }
 
-        public async Task<Face[]> UploadAndDetectFaces(Stream stream)
+        public async Task<Face[]> UploadAndDetectFaces(Uri imageUri)
         {
             var attributes = new FaceAttributeType[]
             {
@@ -34,9 +34,7 @@ namespace ImageGallery.Services
                 FaceAttributeType.Hair
             };
 
-            // return await client.DetectAsync(stream, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: true);
-
-            throw new NotImplementedException();
+            return await _client.DetectAsync(imageUri.ToString(), returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: attributes);
         }
     }
 }
