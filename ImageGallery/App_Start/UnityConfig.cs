@@ -1,6 +1,9 @@
 using System;
+using System.Net.Http;
 using ImageGallery.Services;
 using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
 
 namespace ImageGallery
 {
@@ -38,6 +41,7 @@ namespace ImageGallery
         {
             container.RegisterSingleton<IStorageService, StorageService>();
             container.RegisterSingleton<ICognitiveService, CognitiveService>();
+            container.RegisterType<HttpClient, HttpClient>(new ContainerControlledLifetimeManager(), new InjectionConstructor());
         }
     }
 }

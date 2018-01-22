@@ -20,9 +20,9 @@ namespace ImageGallery.Controllers
             _cognitiveService = cognitiveService;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var images = _storageService.GetImages();
+            var images = await _storageService.GetImagesAsync();
             return View(images);
         }
 
@@ -34,17 +34,15 @@ namespace ImageGallery.Controllers
                 return RedirectToAction("Index", new { value = "uploadFailure" });
             }
 
-            Uri imageUri;
-
             try
             {
                 var fileExtension = Path.GetExtension(file.FileName);
 
-                imageUri = await _storageService.AddImageAsync(file.InputStream, fileExtension);
+                var image = await _storageService.AddImageAsync(file.InputStream, fileExtension);
 
-                var faces = await _cognitiveService.UploadAndDetectFaces(imageUri);
+                var faces = await _cognitiveService.UploadAndDetectFaces(image.ImagePath);
 
-                await _storageService.AddMetadataAsync(imageUri, faces);
+                await _storageService.AddMetadataAsync(image, faces);
             }
             catch (Exception e)
             {

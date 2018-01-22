@@ -26,7 +26,14 @@
             {
             <div class="card">
                 <img class="lazy" data-src="@image.ImagePath" />
-                @*<div class="lazy" data-loader="ajax" data-src="@image.ImageMetaDataPath" />*@
+                @if (image.FaceAttributes.Count == 1)
+                {
+                    <div>
+                        <p>Age @image.FaceAttributes.FirstOrDefault().FaceAttributes.Age</p>
+                        <p>Gender @image.FaceAttributes.FirstOrDefault().FaceAttributes.Gender</p>
+                        <p>Hair @image.FaceAttributes.FirstOrDefault().FaceAttributes.Hair.HairColor.FirstOrDefault().Color</p>
+                    </div>
+                }
             </div>
             }
         </div>
