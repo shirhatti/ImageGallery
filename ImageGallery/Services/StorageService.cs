@@ -80,7 +80,7 @@ namespace ImageGallery.Services
                 {
                     ImagePath = blob.Uri
                 };
-                image.ImageGuid = new Guid(image.ImagePath.AbsolutePath.Substring(image.ImagePath.AbsolutePath.IndexOf("img_") + 4, 36));
+                image.ImageGuid = new Guid(image.ImagePath.AbsolutePath.Substring(image.ImagePath.AbsolutePath.IndexOf(imagePrefix) + imagePrefix.Length, Guid.Empty.ToString().Length));
                 var metadataUri = String.Concat(_container.Uri, "/", metaDataPrefix, image.ImageGuid, ".json");
                 await _httpClient.GetAsync(metadataUri)
                                                 .ContinueWith(async (responseTask) =>
