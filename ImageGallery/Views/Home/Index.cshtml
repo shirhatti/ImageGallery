@@ -26,12 +26,13 @@
             {
             <div class="card">
                 <img class="lazy" data-src="@image.ImagePath" />
-                @if (image.FaceAttributes.Count == 1)
+                @foreach (var face in image.FaceAttributes)
                 {
                     <div>
-                        <p>Age @image.FaceAttributes.FirstOrDefault().FaceAttributes.Age</p>
-                        <p>Gender @image.FaceAttributes.FirstOrDefault().FaceAttributes.Gender</p>
-                        <p>Hair @image.FaceAttributes.FirstOrDefault().FaceAttributes.Hair.HairColor.FirstOrDefault().Color</p>
+                        <p><strong><em>Face @face.FaceId</em></strong></p>
+                        <p>Age: @face.FaceAttributes.Age</p>
+                        <p>Gender: @face.FaceAttributes.Gender</p>
+                        <p>Hair: @String.Join(",", @face.FaceAttributes.Hair.HairColor.Select(hc => "(" + hc.Color + ": " + hc.Confidence + ")"))</p>
                     </div>
                 }
             </div>

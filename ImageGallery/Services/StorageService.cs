@@ -43,7 +43,7 @@ namespace ImageGallery.Services
         public async Task<Image> AddImageAsync(Stream stream, string fileExtension)
         {
             var imageGuid = Guid.NewGuid();
-            var fileName = String.Concat(imagePrefix, imageGuid, ".", fileExtension);
+            var fileName = String.Concat(imagePrefix, imageGuid, fileExtension);
             var imageBlob = _container.GetBlockBlobReference(fileName);
             await imageBlob.UploadFromStreamAsync(stream);
 
@@ -80,15 +80,16 @@ namespace ImageGallery.Services
                 {
                     ImagePath = blob.Uri
                 };
+
                 image.ImageGuid = new Guid(image.ImagePath.AbsolutePath.Substring(image.ImagePath.AbsolutePath.IndexOf(imagePrefix) + imagePrefix.Length, Guid.Empty.ToString().Length));
                 var metadataUri = String.Concat(_container.Uri, "/", metaDataPrefix, image.ImageGuid, ".json");
-                await _httpClient.GetAsync(metadataUri)
-                                                .ContinueWith(async (responseTask) =>
+
+                try
                 {
-                    var response = responseTask.Result;
-                    var jsonString = await response.Content.ReadAsStringAsync();
-                    image.FaceAttributes = JsonConvert.DeserializeObject<List<Face>>(jsonString);
-                });
+                    var json = await _httpClient.GetStringAsync(metadataUri);
+                    image.FaceAttributes = JsonConvert.DeserializeObject<List<Face>>(json);
+                }
+                catch (HttpRequestException) { }
 
                 imageList.Add(image);
             }
