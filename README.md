@@ -10,7 +10,21 @@ For detailed instructions, see [the blog post for this project](https://blogs.ms
 
 ## API keys
 
-Open the **Web.Config** file and modify the placeholder values with API keys that you grabbed from the Azure Portal.
+Open the **Web.Config** file and modify the placeholder values with API keys that you grabbed from the Azure Portal:
+
+```xml
+<appSettings>
+  <add key="webpages:Version" value="3.0.0.0" />
+  <add key="webpages:Enabled" value="false" />
+
+  <!-- Azure Storage -->
+  <add key="AzureStorageConnectionString" value="DefaultEndpointsProtocol=https;AccountName=account-name;AccountKey=account-key" />
+
+  <!-- Azure Cognitive Services -->
+  <add key="CognitiveServiciesUrl" value="YOUR_PROVIDED_URL_HERE" /> <!-- See here: https://azure.microsoft.comtry/cognitive-services/ -->
+  <add key="CognitiveServicesFaceApiKey" value="YOUR_PROVIDED_KEY_HERE" /> <!-- See here: https://azure.microsoft.comtry/cognitive-services/ -->
+</appSettings>
+```
 
 ## Publishing to Azure
 
