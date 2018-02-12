@@ -36,13 +36,13 @@ namespace ImageGallery.Controllers
 
             try
             {
-                var fileExtension = Path.GetExtension(file.FileName);
+                //var fileExtension = Path.GetExtension(file.FileName);
 
-                var image = await _storageService.AddImageAsync(file.InputStream, fileExtension);
+                //var image = await _storageService.AddImageAsync(file.InputStream, fileExtension);
 
-                var faces = await _cognitiveService.UploadAndDetectFaces(image.ImagePath);
-
-                await _storageService.AddMetadataAsync(image, faces);
+                //var faces = await _cognitiveService.UploadAndDetectFaces(image.ImagePath);
+                var faces = await _cognitiveService.DetectFacesAsync(file.InputStream);
+                //await _storageService.AddMetadataAsync(image, faces);
             }
             catch (Exception e)
             {

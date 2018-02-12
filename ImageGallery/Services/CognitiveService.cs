@@ -22,6 +22,20 @@ namespace ImageGallery.Services
             _client = new FaceServiceClient(key, url);
         }
 
+        public async Task<Face[]> DetectFacesAsync(Stream stream)
+        {
+            var attributes = new FaceAttributeType[]
+            {
+                FaceAttributeType.Gender,
+                FaceAttributeType.Age,
+                FaceAttributeType.Smile,
+                FaceAttributeType.Emotion,
+                FaceAttributeType.Glasses,
+                FaceAttributeType.Hair
+            };
+            return await _client.DetectAsync(stream, returnFaceId: true, returnFaceLandmarks: true, returnFaceAttributes: attributes);
+        }
+
         public async Task<Face[]> UploadAndDetectFaces(Uri imageUri)
         {
             var attributes = new FaceAttributeType[]
